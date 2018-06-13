@@ -38,6 +38,11 @@ management:
     health:
       show-details: ALWAYS
 
+logging:
+  level:
+    root: trace
+  path: ./logs
+
 
 
 ---
