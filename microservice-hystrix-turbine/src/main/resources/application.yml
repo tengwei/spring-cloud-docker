@@ -1,0 +1,25 @@
+server:
+  port: 8031
+spring:
+  application:
+    name: microservice-hystrix-turbine
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery:8761/eureka/
+  instance:
+    prefer-ip-address: true
+turbine:
+  appConfig: microservice-consumer-movie,microservice-provider-user
+  clusterNameExpression: "'default'"
+
+
+---
+spring:
+  profiles: ha1
+server:
+  port: 8031
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8761/eureka/,http://peer1:8762/eureka/

@@ -1,0 +1,52 @@
+server:
+  port: 8010
+spring:
+  application:
+    name: microservice-consumer-movie
+  security:
+    user:
+      name: admin
+      password: admin
+
+eureka:
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 10
+    #status-page-url-path: /actuator/info
+    #health-check-url-path: /actuator/health
+    metadata-map:
+      user.name: admin
+      user.password: admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+
+---
+spring:
+  profiles: ha1
+server:
+  port: 8010
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8761/eureka/,http://peer1:8762/eureka/
+
+---
+spring:
+  profiles: ha2
+server:
+  port: 8011
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8761/eureka/,http://peer1:8762/eureka/

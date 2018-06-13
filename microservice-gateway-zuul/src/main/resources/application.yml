@@ -1,0 +1,40 @@
+server:
+  port: 8040
+spring:
+  application:
+    name: microservice-gateway-zuul
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery:8761/eureka/
+  instance:
+    prefer-ip-address: true
+zuul:
+  #prefix: /aa
+  #strip-prefix: true
+  ignoredServices: '*'
+  routes:
+    microservice-consumer-movie:
+      path: /api/**
+      service-id: microservice-consumer-movie
+      stripPrefix: false
+
+---
+spring:
+  profiles: ha1
+server:
+  port: 8040
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8761/eureka/,http://peer1:8762/eureka/
+
+---
+spring:
+  profiles: ha2
+server:
+  port: 8041
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8761/eureka/,http://peer1:8762/eureka/
